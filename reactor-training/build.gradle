@@ -1,0 +1,31 @@
+plugins {
+	id 'org.springframework.boot' version '2.1.8.RELEASE'
+	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+	id 'java'
+}
+
+group = 'com.wolox'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.6.RELEASE'
+	compile 'org.springframework.boot:spring-boot-starter-webflux'
+	compileOnly 'org.projectlombok:lombok:1.18.8'
+	annotationProcessor 'org.projectlombok:lombok:1.18.8'
+	compile 'com.google.code.gson:gson:2.8.2'
+	compile 'com.google.guava:guava:20.0'
+	compile 'org.apache.commons:commons-collections4:4.0'
+	compile 'org.apache.httpcomponents:httpclient:4.3.4'
+	compile('org.springframework.boot:spring-boot-starter-web')
+	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+}
