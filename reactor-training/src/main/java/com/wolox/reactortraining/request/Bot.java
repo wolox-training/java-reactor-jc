@@ -7,7 +7,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @NoArgsConstructor
-public class Boot {
+public class Bot {
 
   private String name;
   private String text;
