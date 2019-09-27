@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 public class BotServiceImpl implements BotService {
 
   @Value("${api.bots.uri}")
-  private String urlBoot;
+  private String urlBot;
 
   private final WebClient webClient;
 
@@ -27,12 +27,12 @@ public class BotServiceImpl implements BotService {
 
   @Override
   public Mono<BotResponse> getBotTalk(String name, String length) {
-    return webClient.get().uri( this.urlBoot +"took?length={length}&name={name}", length, name)
+    return webClient.get().uri( this.urlBot +"took?length={length}&name={name}", length, name)
         .retrieve().bodyToMono(BotResponse.class);
   }
 
   @Override
-  public void createBook(Bot bot) {
-    restTemplate.postForObject(this.urlBoot + "feed", bot, Bot.class);
+  public void createBot(Bot bot) {
+    restTemplate.postForObject(this.urlBot + "feed", bot, Bot.class);
   }
 }

@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
 public interface BotService {
 
   Mono<BotResponse> getBotTalk( String name, String length);
-  void createBook(Bot boot);
+  void createBot(Bot boot);
 }
