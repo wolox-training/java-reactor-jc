@@ -15,8 +15,6 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	implementation 'org.springframework.boot:spring-boot-starter'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
 	compile group: 'io.projectreactor', name: 'reactor-core', version: '3.2.6.RELEASE'
 	compile 'org.springframework.boot:spring-boot-starter-webflux'
@@ -28,4 +26,15 @@ dependencies {
 	compile 'org.apache.httpcomponents:httpclient:4.3.4'
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
+	testCompile('io.projectreactor:reactor-test')
+	compile('org.springframework.boot:spring-boot-starter-data-mongodb-reactive')
+	compile('de.flapdoodle.embed:de.flapdoodle.embed.mongo')
+	compile group: 'org.springframework.social', name: 'spring-social-twitter', version: '1.1.2.RELEASE'
+	compile('com.fasterxml.jackson.core:jackson-core')
+	compile('org.springframework:spring-web')
+	compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.8'
+	compile "io.projectreactor.netty:reactor-netty:0.8.5.RELEASE"
+	implementation 'org.json:json:20180813'
+	compile('org.springframework:spring-webmvc')
+	compile('org.springframework:spring-web')
 }
