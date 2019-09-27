@@ -1,7 +1,7 @@
 package com.wolox.reactortraining.controller;
 
 import com.wolox.reactortraining.request.Boot;
-import com.wolox.reactortraining.response.BootResponse;
+import com.wolox.reactortraining.response.BotResponse;
 import com.wolox.reactortraining.services.BotService;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +29,7 @@ public class BotController {
   }
 
   @GetMapping("/talk")
-  public Mono<BootResponse> getBotTalk(@RequestParam(required = false) String name,
+  public Mono<BotResponse> getBotTalk(@RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "20") String length) {
       return this.botService.getBotTalk(name, length);
   }

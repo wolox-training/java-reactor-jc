@@ -1,7 +1,7 @@
 package com.wolox.reactortraining.services.impl;
 
 import com.wolox.reactortraining.request.Boot;
-import com.wolox.reactortraining.response.BootResponse;
+import com.wolox.reactortraining.response.BotResponse;
 import com.wolox.reactortraining.services.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,9 +26,9 @@ public class BotServiceImpl implements BotService {
   }
 
   @Override
-  public Mono<BootResponse> getBotTalk(String name, String length) {
+  public Mono<BotResponse> getBotTalk(String name, String length) {
     return webClient.get().uri( this.urlBoot +"took?length={length}&name={name}", length, name)
-        .retrieve().bodyToMono(BootResponse.class);
+        .retrieve().bodyToMono(BotResponse.class);
   }
 
   @Override
