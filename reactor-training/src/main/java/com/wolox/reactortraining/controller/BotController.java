@@ -1,6 +1,6 @@
 package com.wolox.reactortraining.controller;
 
-import com.wolox.reactortraining.request.Boot;
+import com.wolox.reactortraining.request.Bot;
 import com.wolox.reactortraining.response.BotResponse;
 import com.wolox.reactortraining.services.BotService;
 import org.springframework.http.HttpStatus;
@@ -24,8 +24,8 @@ public class BotController {
 
   @PostMapping("/feed")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createBook(@RequestBody Boot boot) {
-    this.botService.createBook(boot);
+  public void createBook(@RequestBody Bot bot) {
+    this.botService.createBook(bot);
   }
 
   @GetMapping("/talk")

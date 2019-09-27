@@ -1,6 +1,6 @@
 package com.wolox.reactortraining.services.impl;
 
-import com.wolox.reactortraining.request.Boot;
+import com.wolox.reactortraining.request.Bot;
 import com.wolox.reactortraining.response.BotResponse;
 import com.wolox.reactortraining.services.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public class BotServiceImpl implements BotService {
   }
 
   @Override
-  public void createBook(Boot boot) {
-    restTemplate.postForObject(this.urlBoot + "feed", boot, Boot.class);
+  public void createBook(Bot bot) {
+    restTemplate.postForObject(this.urlBoot + "feed", bot, Bot.class);
   }
 }
