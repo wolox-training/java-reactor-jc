@@ -25,7 +25,7 @@ public class BotController {
   @PostMapping("/feed")
   @ResponseStatus(HttpStatus.CREATED)
   public void createBook(@RequestBody Bot bot) {
-    this.botService.createBook(bot);
+    this.botService.createBot(bot);
   }
 
   @GetMapping("/talk")
