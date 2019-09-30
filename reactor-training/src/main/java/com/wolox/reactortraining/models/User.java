@@ -1,5 +1,6 @@
 package com.wolox.reactortraining.models;
 
+import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
@@ -16,5 +17,9 @@ public class User {
   private String id;
   private String username;
   @DBRef
-  private List<Topic> topics;
+  private List<Topic> topics = new ArrayList<>();
+
+  public void addTopic(Topic topic) {
+    this.topics.add(topic);
+  }
 }
