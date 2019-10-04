@@ -2,17 +2,11 @@ package com.wolox.reactortraining.services;
 
 import com.wolox.reactortraining.bean.TwitterTemplateCreator;
 import com.wolox.reactortraining.request.BotRequest;
-import java.time.Duration;
-import java.util.Collection;
-import java.util.List;
-import java.util.stream.Collectors;
-import org.springframework.social.twitter.api.Tweet;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
-import reactor.core.publisher.Mono;
 import twitter4j.Status;
 
 @Service
@@ -24,19 +18,6 @@ public class TwitterService {
   public TwitterService(TwitterTemplateCreator twitterTemplateCreator) {
     this.twitterTemplateCreator = twitterTemplateCreator;
     this.twitter =  this.twitterTemplateCreator.getTwittertemplate();
-  }
-
-  public String getTweet(BotRequest botRequest) throws Exception {
-    TwitterProfile twitterProfile = this.twitter.userOperations().getUserProfile(botRequest.getUserName());
-    if (twitterProfile == null) {
-      throw new Exception("Not found user");
-    }
-
-    return botRequest.getTopics().stream().
-        map(topic -> {
-              return this.twitter.searchOperations().search("#" + topic).getTweets();
-            }).flatMap(Collection::stream).map(Tweet::getText).collect(Collectors.toList()).stream()
-        .collect(Collectors.joining(" "));
   }
 
   public Flux<String> getTweetStream(BotRequest botRequest) throws Exception {

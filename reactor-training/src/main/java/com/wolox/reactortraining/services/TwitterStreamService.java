@@ -1,6 +1,5 @@
 package com.wolox.reactortraining.services;
 
-import java.time.Duration;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -16,9 +15,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 @Service
 public class TwitterStreamService {
-
-  @Autowired
-  private Environment env;
 
   private static ConnectableFlux twitterStream;
 

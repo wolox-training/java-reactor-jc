@@ -3,7 +3,6 @@ package com.wolox.reactortraining.controller;
 import com.wolox.reactortraining.facade.BotFacade;
 import com.wolox.reactortraining.request.BotRequest;
 import com.wolox.reactortraining.response.BotResponse;
-import com.wolox.reactortraining.services.BotService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
