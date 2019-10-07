@@ -1,6 +1,7 @@
 package com.wolox.reactortraining.services;
 
 import com.wolox.reactortraining.bean.TwitterTemplateCreator;
+import com.wolox.reactortraining.exception.TwitterNotFoundException;
 import com.wolox.reactortraining.request.BotRequest;
 import org.springframework.social.twitter.api.Twitter;
 import org.springframework.social.twitter.api.TwitterProfile;
@@ -20,18 +21,17 @@ public class TwitterService {
     this.twitter =  this.twitterTemplateCreator.getTwittertemplate();
   }
 
-  public Flux<String> getTweetStream(BotRequest botRequest) throws Exception {
+  public Flux<String> getTweetStream(BotRequest botRequest) throws TwitterNotFoundException {
     ConnectableFlux<Status> flux = TwitterStreamService.getTwitterStream();
-    StringBuilder stringBuilder = new StringBuilder();
-    return flux.log().take(1000).filter(status -> {
+    return flux.take(1000).filter(status -> {
       for (String topic:botRequest.getTopics()) {
         if (status.getText().contains(topic)){
           return true;
         }
       }
       return false;
-    }).map(status -> status.getText());
-    //return stringBuilder.toString();
+    }).log().switchIfEmpty(Flux.error(new TwitterNotFoundException("no twetts were found with the entered topics"))).map(
+        status -> status.getText());
   }
 
   public String getUsername() {
