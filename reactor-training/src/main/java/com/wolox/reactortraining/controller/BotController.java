@@ -1,8 +1,9 @@
 package com.wolox.reactortraining.controller;
 
-import com.wolox.reactortraining.request.Bot;
+import com.wolox.reactortraining.facade.BotFacade;
+import com.wolox.reactortraining.request.BotRequest;
 import com.wolox.reactortraining.response.BotResponse;
-import com.wolox.reactortraining.services.BotService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,22 +16,18 @@ import reactor.core.publisher.Mono;
 @RestController
 public class BotController {
 
-  private final BotService botService;
+  @Autowired
+  private BotFacade botFacade;
 
-  public BotController(BotService botService) {
-    this.botService = botService;
-  }
-
-
-  @PostMapping("/feed")
+  @PostMapping("/bot")
   @ResponseStatus(HttpStatus.CREATED)
-  public void createBook(@RequestBody Bot bot) {
-    this.botService.createBot(bot);
+  public void createBot(@RequestBody BotRequest botRequest) throws Exception {
+    this.botFacade.createBot(botRequest);
   }
 
   @GetMapping("/talk")
   public Mono<BotResponse> getBotTalk(@RequestParam(required = false) String name,
       @RequestParam(required = false, defaultValue = "20") String length) {
-      return this.botService.getBotTalk(name, length);
+      return this.botFacade.getBotTalk(name, length);
   }
 }
