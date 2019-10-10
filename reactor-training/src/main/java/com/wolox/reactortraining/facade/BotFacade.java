@@ -7,9 +7,11 @@ import com.wolox.reactortraining.services.BotService;
 import com.wolox.reactortraining.services.TwitterService;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
+import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -45,16 +47,25 @@ public class BotFacade {
 
   public Flux<String> getConversation(List<String> bot) {
     Random random = new Random();
-    Flux<String> botUno = Flux.just(bot.get(0)).repeatWhen(r -> Flux.range(1, 10)).map( s ->
-        this.botService.getBotTalk(s, "200")
-    ).take(random.nextInt(7 )+ 3).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
+    Long timeInterval = 200L;
+    int lengthTwett = 200;
+    List<Flux<String>> bots = new ArrayList<>();
+    for (String botElement : bot) {
+      Flux<String> botlist = Flux.just(botElement)
+          .repeatWhen(longFlux -> Flux.interval(Duration.ofSeconds(2))).map(nameBot ->
+              this.botService.getBotTalk(nameBot, Integer.toString(random.nextInt(lengthTwett)))
+          ).take(random.nextInt((7) + 3)).flatMap(botResponseMono -> botResponseMono
+              .map(botResponse -> botResponse.getName() + botResponse.getResponse()));
 
-    Flux<String> botDos = Flux.just(bot.get(1)).repeatWhen(r -> Flux.range(1, 10)).map( s ->
-        this.botService.getBotTalk(s, "200")
-    ).take(random.nextInt(7) + 3).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
-    Flux<String> conversation = Flux.merge(botUno.delayElements(Duration.ofMillis(400L)), botDos.delayElements(Duration.ofMillis(200L)));
+      Flux<String> intervalFlux1 = Flux
+          .interval(Duration.ofMillis(timeInterval))
+          .zipWith(botlist, (i, string) -> string);
+      timeInterval += 200L;
+      bots.add(botlist);
+    }
 
-   return Flux.interval(Duration.ofSeconds(5))
-        .zipWith(conversation, (tick, status) -> status).map(String::toLowerCase);
+    Flux<String> conversationReactive = Flux.merge(Flux.fromIterable(bots));
+    return Flux.interval(Duration.ofSeconds(5))
+        .zipWith(conversationReactive, (tick, status) -> status).map(String::toLowerCase);
   }
 }
