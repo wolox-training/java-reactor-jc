@@ -45,23 +45,16 @@ public class BotFacade {
 
   public Flux<String> getConversation(List<String> bot) {
     Random random = new Random();
-   List<Flux<String>> bots =  new ArrayList<>();
-    for (String botElement: bot) {
-      Flux<String> botlist = Flux.just(botElement).repeatWhen(longFlux -> Flux.interval(Duration.ofSeconds(2))).map( s ->
-          this.botService.getBotTalk(s, "200")
-      ).take(random.nextInt((7) + 3)).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
-      bots.add(botlist);
-    }
-
-    Flux<String> botUno = Flux.just(bot.get(0)).repeatWhen(longFlux -> Flux.interval(Duration.ofSeconds(2))).map( s ->
+    Flux<String> botUno = Flux.just(bot.get(0)).repeatWhen(r -> Flux.range(1, 10)).map( s ->
         this.botService.getBotTalk(s, "200")
-    ).take(random.nextInt((7) + 3)).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
+    ).take(random.nextInt(7 )+ 3).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
 
-    Flux<String> botDos = Flux.just(bot.get(1)).repeatWhen(longFlux -> Flux.interval(Duration.ofSeconds(2))).map( s ->
+    Flux<String> botDos = Flux.just(bot.get(1)).repeatWhen(r -> Flux.range(1, 10)).map( s ->
         this.botService.getBotTalk(s, "200")
-    ).take(random.nextInt((7) + 3)).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
+    ).take(random.nextInt(7) + 3).flatMap(botResponseMono -> botResponseMono.map(botResponse -> botResponse.getName() + botResponse.getResponse()));
     Flux<String> conversation = Flux.merge(botUno.delayElements(Duration.ofMillis(400L)), botDos.delayElements(Duration.ofMillis(200L)));
-    return Flux.interval(Duration.ofSeconds(1))
+
+   return Flux.interval(Duration.ofSeconds(5))
         .zipWith(conversation, (tick, status) -> status).map(String::toLowerCase);
   }
 }
