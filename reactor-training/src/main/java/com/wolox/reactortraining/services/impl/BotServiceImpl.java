@@ -33,7 +33,7 @@ public class BotServiceImpl implements BotService {
   }
 
   @Override
-  public void createBot(Bot bot) {
-    restTemplate.postForObject(this.urlBot + "feed", bot, BotRequest.class);
+  public BotRequest createBot(Bot bot) {
+    return restTemplate.postForObject(this.urlBot + "feed", bot, BotRequest.class);
   }
 }

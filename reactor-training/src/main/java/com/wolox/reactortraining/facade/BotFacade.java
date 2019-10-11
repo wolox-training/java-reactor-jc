@@ -7,11 +7,9 @@ import com.wolox.reactortraining.services.BotService;
 import com.wolox.reactortraining.services.TwitterService;
 import java.time.Duration;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import org.reactivestreams.Publisher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
@@ -28,13 +26,13 @@ public class BotFacade {
 
 
 
-  public void createBot(BotRequest botRequest) throws Exception {
+  public Mono<BotRequest> createBot(BotRequest botRequest) throws Exception {
     Flux<String> tweets = this.twitterService.getTweetStream(botRequest);
     List<String> listTweet = tweets.collectList().block();
     Bot bot = new Bot();
     bot.setName(botRequest.getBotName());
     bot.setText(listTweet.stream().collect(Collectors.joining(" ")));
-    this.botService.createBot(bot);
+    return Mono.just(this.botService.createBot(bot));
   }
 
   public Mono<BotResponse> getBotTalk(String name, String length) {
