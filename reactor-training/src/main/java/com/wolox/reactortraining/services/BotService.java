@@ -8,5 +8,5 @@ import reactor.core.publisher.Mono;
 public interface BotService {
 
   Mono<BotResponse> getBotTalk( String name, String length);
-  void createBot(Bot bot);
+  BotRequest createBot(Bot bot);
 }
